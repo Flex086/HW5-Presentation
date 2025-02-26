@@ -1,0 +1,120 @@
+---
+title: "Exploratory Data Analysis Presentation"
+author: "Felix Huang"
+date: "`r Sys.Date()`"
+output: 
+  revealjs::revealjs_presentation:
+    theme: solarized
+    transition: zoom
+    transitionSpeed: fast
+bibliography: references.bib
+csl: C:/Users/Felix Huang/Desktop/QTM 350/apa-5th-edition.csl
+---
+
+# Title Slide
+
+## Exploratory Data Analysis of WDI Indicators
+
+### Your Name
+
+#### `r Sys.Date()`
+
+------------------------------------------------------------------------
+
+# Introduction
+
+-   Overview of World Development Indicators (WDI)
+-   Key indicators analyzed:
+    -   GDP per Capita
+    -   Life Expectancy
+    -   Inflation Rate
+
+------------------------------------------------------------------------
+
+# Summary Statistics
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+dataset <- read_csv("C:/Users/Felix Huang/Downloads/wdi.csv")
+
+sum_stats <- dataset %>% 
+  summarise(
+    mean_gdp = mean(gdp_per_capita, na.rm = TRUE),
+    median_gdp = median(gdp_per_capita, na.rm = TRUE),
+    mean_life_exp = mean(life_expectancy, na.rm = TRUE),
+    median_life_exp = median(life_expectancy, na.rm = TRUE),
+    mean_inflation = mean(inflation_rate, na.rm = TRUE),
+    median_inflation = median(inflation_rate, na.rm = TRUE)
+  )
+
+kable(sum_stats, caption = "Summary Statistics of Key Indicators") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+```
+
+------------------------------------------------------------------------
+
+# GDP per Capita
+
+-   Measures economic performance
+-   Higher values indicate wealthier economies
+
+```{r}
+ggplot(dataset, aes(x = gdp_per_capita)) + 
+  geom_histogram(bins = 30, fill = "steelblue", alpha = 0.7) + 
+  theme_minimal() + 
+  labs(title = "Distribution of GDP per Capita", x = "GDP per Capita (USD)", y = "Frequency")
+```
+
+------------------------------------------------------------------------
+
+# Life Expectancy
+
+-   Indicator of healthcare and living conditions
+-   Longer life expectancy signals better public health
+
+```{r}
+ggplot(dataset, aes(x = life_expectancy)) + 
+  geom_histogram(bins = 30, fill = "darkgreen", alpha = 0.7) + 
+  theme_minimal() + 
+  labs(title = "Distribution of Life Expectancy", x = "Life Expectancy (Years)", y = "Frequency")
+```
+
+------------------------------------------------------------------------
+
+# Inflation Rate
+
+-   Measures price stability in an economy
+-   High inflation can reduce purchasing power
+
+```{r}
+ggplot(dataset, aes(x = inflation_rate)) + 
+  geom_histogram(bins = 30, fill = "darkred", alpha = 0.7) + 
+  theme_minimal() + 
+  labs(title = "Distribution of Inflation Rate", x = "Inflation Rate (%)", y = "Frequency")
+```
+
+------------------------------------------------------------------------
+
+# Conclusion
+
+-   Summary of key findings
+-   Implications for economic development
+-   Future research directions
+
+------------------------------------------------------------------------
+
+# References
+
+According to Smith (2020), GDP per capita is a key indicator of economic performance \citep{smith2020economic}. Similarly, Johnson and Lee (2019) discuss the importance of life expectancy as a measure of public health \citep{johnson2019life}.
+
+------------------------------------------------------------------------
+
+# Thank You!
+
+-   Questions?
+-   Contact: felix.huang\@emory.edu
